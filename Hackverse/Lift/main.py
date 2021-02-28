@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 from keras.models import load_model
@@ -13,7 +13,7 @@ mp_hands = mp.solutions.hands
 model=load_model("Liftmodel")
 
 
-# In[2]:
+# In[3]:
 
 
 Char="0123456789DOU$"
@@ -63,6 +63,14 @@ while cap.isOpened():
         x = np.expand_dims(x,-1)
         fi=int(np.argmax(model.predict(x)))
         text=Char[fi]
+        if Char[fi]=="O":
+            text="Ok!"
+        elif Char[fi]=="U":
+            text="Press Up"
+        elif Char[fi]=="D":
+            text="Press Down"
+        elif Char[fi]=="$":
+            text="Cancel Previous"
         cv2.putText(image,text, (0,50), cv2.FONT_HERSHEY_SIMPLEX, 2, (0,0,255), 3, cv2.LINE_AA)
     else:
         cv2.putText(image,'No Hands!', location, font, fontScale,fontColor,lineType)
